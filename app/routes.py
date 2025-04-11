@@ -96,6 +96,11 @@ def get_winner():
         "amount": winner.amount
     })
 
+    # Datenbank leeren (nach Abschluss der Auktion)
+    db.session.query(Bid).delete()  # Alle Gebote löschen
+    db.session.query(Confirmation).delete()  # Alle Bestätigungen löschen
+    db.session.commit()
+
     return response
 
 
