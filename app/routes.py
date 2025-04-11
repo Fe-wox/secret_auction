@@ -11,14 +11,6 @@ from flask import Blueprint
 # Blueprint erstellen, um die Routen von der App trennen
 routes_blueprint = Blueprint("routes", __name__)
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///auction.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-# Flask mit DB verbinden
-db.init_app(app)
-
-
 @routes_blueprint.route("/bid", methods=["POST"])
 def place_bid():
     """Takes bids and saves them."""
@@ -110,13 +102,3 @@ def get_winner():
 @routes_blueprint.route("/")
 def home():
     return "Secret Auction Server is running"
-
-
-if __name__ == "__main__":
-    # Tabellen werden innerhalb des App-Kontexts erstellt
-    with app.app_context():
-        db.create_all()
-        Bid.query.delete()
-        Confirmation.query.delete()
-        db.session.commit()
-    app.run(debug=True)

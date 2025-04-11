@@ -1,4 +1,4 @@
-from random import random, choice
+from random import choice
 
 import requests
 import time
